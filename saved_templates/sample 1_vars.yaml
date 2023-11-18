@@ -1,0 +1,17 @@
+hostname: 'AristaSwitch01'
+
+interfaces:
+  - name: 'Ethernet1'
+    description: 'Uplink to Router'
+    ip_address: '192.168.1.1/24'
+  - name: 'Ethernet2'
+    description: 'Connection to Server'
+    ip_address: '192.168.1.2/24'
+
+ntp_servers:
+  - '0.pool.ntp.org'
+  - '1.pool.ntp.org'
+
+logging_servers:
+  - '192.168.100.1'
+  - '192.168.100.2'

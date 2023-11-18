@@ -1,0 +1,21 @@
+hostname {{ hostname }}
+
+{% for interface in interfaces %}
+interface {{ interface.name }}
+   description {{ interface.description }}
+   ip address {{ interface.ip_address }}
+{% endfor %}
+
+{% if ntp_servers %}
+ntp server
+{% for server in ntp_servers %}
+   {{ server }}
+{% endfor %}
+{% endif %}
+
+{% if logging_servers %}
+logging host
+{% for server in logging_servers %}
+   {{ server }}
+{% endfor %}
+{% endif %}

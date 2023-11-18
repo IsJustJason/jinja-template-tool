@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jinja Template Renderer</title>
+    <style>
+        body {
+            background-color: #f4f4f4; /* Lighter background */
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        textarea, input[type="text"], button {
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1); /* Subtle shadow */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd; /* Light border */
+            width: 100%;
+        }
+        button {
+            background-color: #4CAF50; /* Brighter color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px; /* Adjust padding as needed */
+            margin-bottom: 20px;
+            width: auto; /* Adjust width to content */
+            max-width: 200px; /* Prevents the button from becoming too wide */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+            display: inline-block; /* Aligns the button to the left */
+            /* Additional styling for alignment, if needed */
+            margin-right: 10px; /* Spacing between button and other elements */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker shade on hover */
+        }
+        .flash {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+        }
+        .success {
+            background-color: #28a745; /* More subdued green */
+        }
+        .error {
+            background-color: #dc3545; /* More subdued red */
+        }
+        .rendered-template {
+            white-space: pre-wrap; 
+            background: #fff; /* Lighter background */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Jinja Template Renderer</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <button onclick="window.open('/saved_templates', 'popup', 'width=600,height=400'); return false;">Load Saved Template</button>
+    <form action="/" method="post">
+        <label for="template_name">Template Name (optional, to save):</label><br>
+        <input type="text" id="template_name" name="template_name" placeholder="Enter template name to save">
+        <label for="yaml_content">YAML Variables:</label><br>
+        <textarea id="yaml_content" name="yaml_content" rows="10" placeholder="Enter your YAML variables here."></textarea>
+        <label for="jinja_template">Jinja Template:</label><br>
+        <textarea id="jinja_template" name="jinja_template" rows="10" placeholder="Enter your Jinja template here."></textarea>
+        <button type="submit">Render Template</button>
+    </form>
+    {% if rendered_template %}
+    <h2>Rendered Template:</h2>
+    <button id="copyButton">Copy to Clipboard</button>
+    <div class="rendered-template">{{ rendered_template }}</div>    
+    {% endif %}
+    <script>
+        document.getElementById("copyButton").addEventListener("click", function() {
+            // Assuming the rendered template content is in a div with class 'rendered-template'
+            const content = document.querySelector('.rendered-template').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                // alert('Copied to clipboard');
+            }).catch(err => {
+                console.error('Error copying text: ', err);
+            });
+        });
+    </script>    
+</body>
+</html>
