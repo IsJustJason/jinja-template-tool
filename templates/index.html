@@ -78,11 +78,9 @@
         <textarea id="jinja_template" name="jinja_template" rows="10" placeholder="Enter your Jinja template here."></textarea>
         <button type="submit">Render Template</button>
     </form>
-    {% if rendered_template %}
     <h2>Rendered Template:</h2>
     <button id="copyButton">Copy to Clipboard</button>
     <div class="rendered-template">{{ rendered_template }}</div>    
-    {% endif %}
     <script>
         document.getElementById("copyButton").addEventListener("click", function() {
             // Assuming the rendered template content is in a div with class 'rendered-template'
